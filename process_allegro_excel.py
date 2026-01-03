@@ -83,7 +83,7 @@ def clean_last_subcategory(text):
     
     return text
 
-def process_allegro_excel(input_file, output_file=None, sheet_name=0):
+def process_allegro_excel(input_file, output_file=None, sheet_name=0, drop_first_row=True):
     """
     Główna funkcja przetwarzająca plik Excel z ofertami Allegro
     
@@ -98,6 +98,11 @@ def process_allegro_excel(input_file, output_file=None, sheet_name=0):
     df = pd.read_excel(input_file, sheet_name=sheet_name)
     print(f"✓ Wczytano {len(df)} wierszy i {len(df.columns)} kolumn")
     
+    # Opcjonalnie usuń pierwszy wiersz (np. nagłówek pomocniczy)
+    if drop_first_row:
+        print("\n✂️ Usuwam pierwszy wiersz... (drop_first_row=True)")
+        df = df.iloc[1:].reset_index(drop=True)
+
     # 1. Usuń puste kolumny
     print("\n🗑️  Usuwam puste kolumny...")
     initial_cols = len(df.columns)
