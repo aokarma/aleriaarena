@@ -3,9 +3,10 @@ import json
 import os
 from pathlib import Path
 
-CLIENT_ID = "c3b7caedeb334266a4600a075c1f1c4c"
-CLIENT_SECRET = "Q8cMMYQQBRrNxCgFylbjExO6MiWHNED2Cj7lli2ogbxMCi99uwRS5NGSQRCGIplU"
-USER_ID = "141492764"   # login sprzedawcy
+CLIENT_ID = "99e59d9e334648ac87aab0bf4b877cc2"
+CLIENT_SECRET = "oCaGFIp447oYOWkGA4FnN3Vht4QlI5OYR85cKxWKOGfTL0Agqk51BobQx9EcbWKu"
+# USER_ID = "141492764"   # login sprzedawcy
+USER_ID = "galeriaarena"   # login sprzedawcy
 
 # -----------------------------------------
 # 1. Pobranie tokenu
