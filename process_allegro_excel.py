@@ -83,18 +83,19 @@ def clean_last_subcategory(text):
     
     return text
 
-def process_allegro_excel(input_file, output_file=None):
+def process_allegro_excel(input_file, output_file=None, sheet_name=0):
     """
     Główna funkcja przetwarzająca plik Excel z ofertami Allegro
     
     Args:
         input_file: Ścieżka do pliku wejściowego (xlsx)
         output_file: Ścieżka do pliku wyjściowego (jeśli None, nazwa będzie input_file_processed.xlsx)
+        sheet_name: Nazwa arkusza lub indeks (domyślnie 0)
     """
     
     # Odczytaj plik Excel
-    print(f"📂 Czytam plik: {input_file}")
-    df = pd.read_excel(input_file)
+    print(f"📂 Czytam plik: {input_file} (arkusz: {sheet_name})")
+    df = pd.read_excel(input_file, sheet_name=sheet_name)
     print(f"✓ Wczytano {len(df)} wierszy i {len(df.columns)} kolumn")
     
     # 1. Usuń puste kolumny
@@ -132,7 +133,11 @@ def process_allegro_excel(input_file, output_file=None):
     
     # Zapisz plik wyjściowy
     if output_file is None:
-        output_file = input_file.replace('.xlsx', '_processed.xlsx')
+        # Jeśli wejście to .xlsm lub .xlsx, zmień rozszerzenie
+        if input_file.endswith('.xlsm'):
+            output_file = input_file.replace('.xlsm', '_processed.xlsx')
+        else:
+            output_file = input_file.replace('.xlsx', '_processed.xlsx')
     
     print(f"\n💾 Zapisuję plik: {output_file}")
     df.to_excel(output_file, index=False, engine='openpyxl')
@@ -143,15 +148,16 @@ def process_allegro_excel(input_file, output_file=None):
 
 if __name__ == "__main__":
     # Użycie
-    input_file = "data/offers_2026-01-03.xlsm"  # Zmień na swoją nazwę pliku
+    input_file = "data/offers_2026-01-03.xlsm"
+    sheet_name = "Szablon"  # Arkusz z danymi ofert
     
     # Sprawdź czy plik istnieje
     if not Path(input_file).exists():
         print(f"❌ Plik '{input_file}' nie znaleziony!")
         print("\nUżycie:")
-        print("  process_allegro_excel('nazwa_twojego_pliku.xlsx')")
+        print("  process_allegro_excel('nazwa_twojego_pliku.xlsx', sheet_name='Nazwa Arkusza')")
     else:
-        df = process_allegro_excel(input_file)
+        df = process_allegro_excel(input_file, sheet_name=sheet_name)
         print("\n" + "="*50)
         print("Podgląd pierwszych wierszy:")
         print("="*50)
